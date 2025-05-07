@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Asessment2Mobpro</string>
     <string name="list_kosong">Belum ada data</string>
+    <string name="tambah_data">Tambah data</string>
+    <string name="belum_bisa">Belum bisa tambah data</string>
 </resources>
