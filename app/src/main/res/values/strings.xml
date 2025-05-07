@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Asessment2Mobpro</string>
-    <string name="Count">Count +1</string>
+    <string name="list_kosong">Belum ada data</string>
 </resources>
