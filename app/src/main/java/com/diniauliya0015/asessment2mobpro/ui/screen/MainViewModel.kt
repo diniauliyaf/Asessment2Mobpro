@@ -1,8 +1,9 @@
 package com.diniauliya0015.asessment2mobpro.ui.screen
 
+import androidx.lifecycle.ViewModel
 import com.diniauliya0015.asessment2mobpro.model.Resep
 
-class MainViewModel {
+class MainViewModel : ViewModel() {
     val data = listOf(
         Resep(
             1,
