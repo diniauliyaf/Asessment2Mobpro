@@ -17,21 +17,22 @@ abstract class ResepDb : RoomDatabase() {
     companion object {
         @Volatile
         private var INSTANCE: ResepDb? = null
+
         @OptIn(InternalCoroutinesApi::class)
         fun getInstance(context: Context): ResepDb {
-            synchronized(this){
-            var instance = INSTANCE
+            synchronized(this) {
+                var instance = INSTANCE
 
-            if (instance == null) {
-                instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    ResepDb::class.java,
-                    "resep.db"
-                ).build()
-                INSTANCE = instance
+                if (instance == null) {
+                    instance = Room.databaseBuilder(
+                        context.applicationContext,
+                        ResepDb::class.java,
+                        "resep.db"
+                    ).build()
+                    INSTANCE = instance
+                }
+                return instance
             }
-            return instance
         }
     }
-}
 }

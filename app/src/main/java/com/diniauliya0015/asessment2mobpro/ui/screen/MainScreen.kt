@@ -1,6 +1,7 @@
 package com.diniauliya0015.asessment2mobpro.ui.screen
 
 import android.content.res.Configuration
+import android.view.View
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -33,6 +36,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.diniauliya0015.asessment2mobpro.R
 import com.diniauliya0015.asessment2mobpro.model.Resep
 import com.diniauliya0015.asessment2mobpro.ui.theme.Asessment2MobproTheme
+import com.diniauliya0015.asessment2mobpro.util.ViewModelFactory
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -71,8 +75,10 @@ fun MainScreen() {
 
 @Composable
 fun ScreenContent(modifier: Modifier = Modifier) {
-    val viewModel: MainViewModel = viewModel()
-    val data = viewModel.data
+    val context = LocalContext.current
+    val factory = ViewModelFactory(context)
+    val viewModel: MainViewModel = viewModel(factory = factory)
+    val data by viewModel.data.collectAsState()
 
     if (data.isEmpty()) {
         Column(
