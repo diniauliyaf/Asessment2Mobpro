@@ -15,8 +15,5 @@ class MainViewModel(dao: ResepDao) : ViewModel(){
         started = SharingStarted.WhileSubscribed(),
         initialValue = emptyList()
     )
-    fun getResep(id: Long): Resep? {
-        return data.value.find { it.id == id }
-    }
 
 }

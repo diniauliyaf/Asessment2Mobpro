@@ -3,4 +3,7 @@
     <string name="list_kosong">Belum ada data</string>
     <string name="tambah_data">Tambah data</string>
     <string name="belum_bisa">Belum bisa tambah data</string>
+    <string name="namaResep">Nama Resep</string>
+    <string name="bahan">Bahan Bahan</string>
+    <string name="langkah">Langkah Pembuatan</string>
 </resources>
