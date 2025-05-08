@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "resep")
 data class Resep(
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    val id: Long = 0,
     val namaResep: String,
     val bahan: String,
     val langkah: String,

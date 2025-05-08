@@ -1,5 +1,6 @@
 package com.diniauliya0015.asessment2mobpro.ui.screen
 import android.content.res.Configuration
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -46,14 +47,14 @@ fun DetailScreen(navController: NavHostController, id: Long? = null) {
     val factory = ViewModelFactory(context)
     val viewModel: DetailViewModel = viewModel(factory = factory)
 
-    var judul by remember { mutableStateOf("") }
+    var namaResep by remember { mutableStateOf("") }
     var bahan by remember { mutableStateOf("")}
     var langkah by remember { mutableStateOf("")}
 
     LaunchedEffect(Unit) {
         if (id == null) return@LaunchedEffect
         val data = viewModel.getResep(id)?: return@LaunchedEffect
-        judul = data.namaResep
+        namaResep = data.namaResep
         bahan = data.bahan
         langkah = data.langkah
     }
@@ -81,18 +82,27 @@ fun DetailScreen(navController: NavHostController, id: Long? = null) {
                     titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
         actions = {
-            IconButton(onClick = {navController.popBackStack()}) {
-                Icon(
-                    imageVector = Icons.Outlined.Check,
-                    contentDescription = stringResource(R.string.simpan),
-                    tint = MaterialTheme.colorScheme.primary
-                )
-            }
+            IconButton(onClick = {
+                if(namaResep=="" || bahan == "" || langkah == ""){
+                    Toast.makeText(context, R.string.invalid, Toast.LENGTH_LONG).show()
+                    return@IconButton
+                }
+                if (id == null) {
+                    viewModel.insert(namaResep, bahan, langkah)
+                }
+                navController.popBackStack()
+            }){
+                    Icon(
+                        imageVector = Icons.Outlined.Check,
+                        contentDescription = stringResource(R.string.simpan),
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
         }
     )},
     ) { padding -> FormResep(
-        tittle = judul,
-        onTitleChange = {judul = it},
+        tittle = namaResep,
+        onTitleChange = {namaResep = it},
         bahan = bahan,
         onBahanChange = {bahan = it},
         langkah = langkah,

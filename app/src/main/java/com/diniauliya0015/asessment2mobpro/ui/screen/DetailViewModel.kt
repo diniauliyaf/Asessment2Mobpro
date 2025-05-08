@@ -9,9 +9,8 @@ import kotlinx.coroutines.launch
 
 class DetailViewModel(private val dao: ResepDao) : ViewModel() {
 
-        fun insert(id:Long, namaResep: String, bahan: String, langkah: String) {
+        fun insert(namaResep: String, bahan: String, langkah: String) {
             val resep = Resep(
-                id = id,
                 namaResep = namaResep,
                 bahan = bahan,
                 langkah = langkah
