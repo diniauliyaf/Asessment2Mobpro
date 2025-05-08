@@ -33,16 +33,18 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.diniauliya0015.asessment2mobpro.R
 import com.diniauliya0015.asessment2mobpro.model.Resep
+import com.diniauliya0015.asessment2mobpro.navigation.Screen
 import com.diniauliya0015.asessment2mobpro.ui.theme.Asessment2MobproTheme
 import com.diniauliya0015.asessment2mobpro.util.ViewModelFactory
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
-    val context = LocalContext.current
+fun MainScreen(navController: NavHostController) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -58,7 +60,7 @@ fun MainScreen() {
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    Toast.makeText(context, R.string.belum_bisa, Toast.LENGTH_SHORT).show()
+                   navController.navigate(Screen.FormBaru.route)
                 }
             ) {
                 Icon(
@@ -128,6 +130,6 @@ fun ListItem(resep: Resep) {
 @Composable
 fun GreetingPreview() {
     Asessment2MobproTheme {
-        MainScreen()
+        MainScreen(rememberNavController())
     }
 }
