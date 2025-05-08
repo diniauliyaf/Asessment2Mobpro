@@ -1,6 +1,6 @@
 package com.diniauliya0015.asessment2mobpro.navigation
 
-import KEY_ID_RESEP
+import com.diniauliya0015.asessment2mobpro.ui.screen.KEY_ID_RESEP
 
 
 sealed class Screen(val route: String) {
