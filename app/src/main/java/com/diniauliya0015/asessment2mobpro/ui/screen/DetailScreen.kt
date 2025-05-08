@@ -29,16 +29,15 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.diniauliya0015.asessment2mobpro.R
 import com.diniauliya0015.asessment2mobpro.ui.theme.Asessment2MobproTheme
 
-
+const val KEY_ID_RESEP = "idResep"
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(navController: NavHostController) {
+fun DetailScreen(navController: NavHostController, id: Long? = null) {
     var judul by remember { mutableStateOf("") }
     var bahan by remember { mutableStateOf("")}
     var langkah by remember { mutableStateOf("")}
@@ -57,7 +56,10 @@ fun DetailScreen(navController: NavHostController) {
                     }
                 },
                 title = {
-                    Text(text = stringResource(id = R.string.tambah_data))
+                    if (id == null)
+                        Text(text = stringResource(id = R.string.tambah_data))
+                    else
+                        Text(text = stringResource(id = R.string.edit_daftar))
                 },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
