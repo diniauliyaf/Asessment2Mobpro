@@ -1,6 +1,7 @@
 package com.diniauliya0015.asessment2mobpro.ui.screen
 
 import android.content.res.Configuration
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -92,18 +93,22 @@ fun ScreenContent(modifier: Modifier = Modifier, navController: NavHostControlle
         LazyColumn(
             modifier = modifier.fillMaxSize()
         ) {
-            items(data) {
-                ListItem(resep = it)
-                navController.navigate((Screen.FormUbah.withId(it.id)))
-            }
+           items(data){
+               ListItem(resep = it, onClick = {
+                   navController.navigate((Screen.FormUbah.withId(it.id)))
+               })
+           }
         }
     }
 }
 
 @Composable
-fun ListItem(resep: Resep) {
+fun ListItem(resep: Resep, onClick: () -> Unit) {
     Column(
-        modifier = Modifier.fillMaxWidth().padding(16.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() }
+            .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
