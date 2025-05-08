@@ -19,6 +19,8 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DividerDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
@@ -32,6 +34,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -60,6 +65,8 @@ import kotlinx.coroutines.launch
 fun MainScreen(navController: NavHostController) {
     val dataStore = SettingsDataStore(LocalContext.current)
     val showList by dataStore.layoutFlow.collectAsState(true)
+    var sortAscending by remember { mutableStateOf(true) }
+    var showSortMenu by remember { mutableStateOf(false) }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -86,6 +93,33 @@ fun MainScreen(navController: NavHostController) {
                             tint = MaterialTheme.colorScheme.primary
                         )
                     }
+                        IconButton(onClick = { showSortMenu = true })
+                        {
+                            Icon(
+                                painter = painterResource(R.drawable.filter),
+                                contentDescription = stringResource(R.string.sorting),
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                            DropdownMenu(
+                                expanded = showSortMenu,
+                                onDismissRequest = { showSortMenu = false }
+                            ) {
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.a_z))},
+                                        onClick = {
+                                            sortAscending = true
+                                            showSortMenu = false
+                                        }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.z_a))},
+                                        onClick = {
+                                            sortAscending = false
+                                            showSortMenu = false
+                                        }
+                                )
+                            }
+                        }
                 }
             )
         },
@@ -103,17 +137,26 @@ fun MainScreen(navController: NavHostController) {
             }
         }
     ) { innerPadding ->
-        ScreenContent(showList, Modifier.padding(innerPadding), navController)
+        ScreenContent(showList, Modifier.padding(innerPadding), navController, sortAscending)
     }
 }
 
 @Composable
-fun ScreenContent(showList: Boolean,modifier: Modifier = Modifier, navController: NavHostController) {
+fun ScreenContent(
+    showList: Boolean,
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+    sortAscending: Boolean)
+{
     val context = LocalContext.current
     val factory = ViewModelFactory(context)
     val viewModel: MainViewModel = viewModel(factory = factory)
     val data by viewModel.data.collectAsState()
 
+    val sortedData = remember(data, sortAscending){
+        if (sortAscending) data.sortedBy { it.namaResep.lowercase() }
+        else data.sortedByDescending { it.namaResep.lowercase() }
+    }
     if (data.isEmpty()) {
         Column(
             modifier = modifier
@@ -131,7 +174,7 @@ fun ScreenContent(showList: Boolean,modifier: Modifier = Modifier, navController
                 modifier = modifier.fillMaxSize(),
                 contentPadding = PaddingValues(bottom = 84.dp)
             ) {
-                items(data) {
+                items(sortedData) {
                     ListItem(resep = it) {
                         navController.navigate((Screen.FormUbah.withId(it.id)))
                     }
@@ -146,7 +189,7 @@ fun ScreenContent(showList: Boolean,modifier: Modifier = Modifier, navController
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 contentPadding = PaddingValues(8.dp, 8.dp, 8.dp, 84.dp)
             ) {
-                items(data) {
+                items(sortedData) {
                     GridItem(resep = it) {
                         navController.navigate(Screen.FormUbah.withId(it.id))
                     }

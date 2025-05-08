@@ -16,4 +16,7 @@
     <string name="tombol_batal">Batal</string>
     <string name="grid">Tampilan grid</string>
     <string name="list">Tampilan list</string>
+    <string name="sorting">Fitur sort</string>
+    <string name="a_z">Sort A-Z</string>
+    <string name="z_a">Sort Z-A</string>
 </resources>
