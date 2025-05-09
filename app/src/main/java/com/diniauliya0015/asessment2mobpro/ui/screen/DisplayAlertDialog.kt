@@ -28,7 +28,7 @@ fun DisplayAlertDialog(
                 Text(text = stringResource(R.string.tombol_batal))
             }
         },
-        onDismissRequest = { onDismissRequest}
+        onDismissRequest = { onDismissRequest()}
     )
 }
 
